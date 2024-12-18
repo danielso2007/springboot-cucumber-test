@@ -115,5 +115,7 @@ public class BuscarProdutosStep {
 
     @And("no retorno, o campo {string} deve conter {string}")
     public void noRetornoOCampoDeveConter(String campo, String texto) {
+        String textoCampo = jsonResponse.get(campo).asText();
+        assertEquals(textoCampo, texto);
     }
 }
