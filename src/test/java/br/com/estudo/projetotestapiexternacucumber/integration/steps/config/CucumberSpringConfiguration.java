@@ -6,6 +6,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+/**
+ * Classe de configuração do cucumber no spring-boot
+ */
 @CucumberContextConfiguration
 @SpringBootTest(classes = ProjetoTestApiExternaCucumberApplication.class)
 @AutoConfigureMockMvc(addFilters = false)
