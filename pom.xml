@@ -2,42 +2,51 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
+    <!-- Aplicação em spring-boot -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.4.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
     <groupId>br.com.estudo</groupId>
     <artifactId>projetoTestApiExternaCucumber</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>projetoTestApiExternaCucumber</name>
     <description>Exemplo de teste automatizado com cucumber e uma API externa</description>
-    <url/>
-    <licenses>
-        <license/>
-    </licenses>
+
     <properties>
         <java.version>21</java.version>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
+
+
         <!-- HTTP Client -->
+        <!-- Usado para acessarmos a URL da API -->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <version>4.5.13</version>
         </dependency>
+
+
         <!-- JSON Parsing (opcional) -->
+        <!-- Usado para converter o retorno Json em objeto -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>2.13.4.2</version>
         </dependency>
+
         <!-- Test -->
+        <!-- Usado para os testes do spring-boot -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -49,6 +58,8 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
+
         <!-- Cucumber -->
         <dependency>
             <groupId>io.cucumber</groupId>
@@ -72,7 +83,9 @@
             <artifactId>cucumber-spring</artifactId>
             <version>7.20.1</version>
         </dependency>
+
         <!-- JUnit -->
+        <!-- Para testes unitários -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -92,6 +105,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <includes>
+                        <!-- Para chamar as classes de testes e Runner do cucumber no build da aplicação -->
                         <include>**/*CucumberRunner.java</include>
                         <include>/**/*Test.java</include>
                     </includes>

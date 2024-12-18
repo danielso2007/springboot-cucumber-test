@@ -9,10 +9,10 @@ import org.junit.runner.RunWith;
  */
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = "classpath:features", // Local onde ficam as feature. Exemplo: buscar-produtos.feature.
-        tags = "@BuscarProdutos", // A tag da feature.
+        features = "classpath:features", // Local onde ficam as feature. Exemplo: adicionar-produtos.feature.
+        tags = "@AdicionarProdutos", // A tag da feature.
         glue = {"br.com.estudo.projetotestapiexternacucumber.integration.steps"}, // Local onde estão as classes steps.
-        plugin = {"pretty", "html:target/cucumber-reports/buscar-produtos-report.html", "json:target/cucumber-reports/buscar-produtos-report.json"} // Local onde serão gerados os relatórios.
+        plugin = {"pretty", "html:target/cucumber-reports/adicionar-produtos-report.html", "json:target/cucumber-reports/adicionar-produtos-report.json"} // Local onde serão gerados os relatórios.
 )
-public class BuscarProdutosCucumberRunner {
+public class AdicionarProdutosCucumberRunner {
 }
