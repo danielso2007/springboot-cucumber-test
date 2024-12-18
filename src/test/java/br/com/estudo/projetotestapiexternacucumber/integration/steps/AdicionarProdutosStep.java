@@ -31,8 +31,8 @@ public class AdicionarProdutosStep {
 
     /**
      * Método usado para realizar as chamadas para a API.
-     *
      * @param url A URL que será chamada.
+     * @param entity O body da requisição.
      */
     private void enviarRequisicaoPost(String url, StringEntity entity) {
         try {
