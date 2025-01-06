@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -33,18 +34,16 @@ public class ObterProdutoAcessoAutenticadoStep {
      * @param url A URL que será chamada.
      */
     private void obterRetornoUrlExterna(String url, String token) {
-        try {
-            CloseableHttpClient client = HttpClients.createDefault();
+        try (CloseableHttpClient client = HttpClients.createDefault()) {
             HttpGet request = new HttpGet(url);
             request.setHeader("Authorization", "Bearer " + token);
-            response = client.execute(request);
+            try (CloseableHttpResponse response = client.execute(request);
+                 InputStream inputStream = response.getEntity().getContent()) {
 
-            // Transformar o Json da resposta em objeto.
-            InputStream inputStream = response.getEntity().getContent();
-            ObjectMapper objectMapper = new ObjectMapper();
-            jsonResponse = objectMapper.readTree(inputStream);
-
-            client.close();
+                // Transformar o Json da resposta em objeto.
+                ObjectMapper objectMapper = new ObjectMapper();
+                jsonResponse = objectMapper.readTree(inputStream);
+            }
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -58,8 +57,7 @@ public class ObterProdutoAcessoAutenticadoStep {
      * @return Retorna o token.
      */
     private String obterToken(String username, String password) {
-        try {
-            CloseableHttpClient client = HttpClients.createDefault();
+        try (CloseableHttpClient client = HttpClients.createDefault()) {
             HttpPost request = new HttpPost("https://dummyjson.com/auth/login");
 
             final String json = String.format("{\"username\":\"%s\", \"password\":\"%s\", \"expiresInMins\":60}", username, password);
@@ -72,12 +70,12 @@ public class ObterProdutoAcessoAutenticadoStep {
             HttpResponse responseToken = client.execute(request);
 
             // Transformar o Json da resposta em objeto.
-            InputStream inputStream = responseToken.getEntity().getContent();
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode jsonResponseToken = objectMapper.readTree(inputStream);
-            client.close();
+            try (InputStream inputStream = responseToken.getEntity().getContent()) {
+                ObjectMapper objectMapper = new ObjectMapper();
+                JsonNode jsonResponseToken = objectMapper.readTree(inputStream);
 
-            return jsonResponseToken.get("accessToken").asText();
+                return jsonResponseToken.get("accessToken").asText();
+            }
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
