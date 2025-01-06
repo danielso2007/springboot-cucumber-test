@@ -35,8 +35,7 @@ public class AdicionarProdutosStep {
      * @param entity O body da requisição.
      */
     private void enviarRequisicaoPost(String url, StringEntity entity) {
-        try {
-            CloseableHttpClient client = HttpClients.createDefault();
+        try (CloseableHttpClient client = HttpClients.createDefault()) {
             HttpPost request = new HttpPost(url);
 
             request.setEntity(entity);
@@ -46,11 +45,11 @@ public class AdicionarProdutosStep {
             response = client.execute(request);
 
             // Transformar o Json da resposta em objeto.
-            InputStream inputStream = response.getEntity().getContent();
-            ObjectMapper objectMapper = new ObjectMapper();
-            jsonResponse = objectMapper.readTree(inputStream);
+            try (InputStream inputStream = response.getEntity().getContent()) {
+                ObjectMapper objectMapper = new ObjectMapper();
+                jsonResponse = objectMapper.readTree(inputStream);
+            }
 
-            client.close();
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
